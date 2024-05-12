@@ -1,0 +1,79 @@
+import java.util.Scanner;
+
+class Signal {
+    boolean carCrossing;
+
+    // Constructor
+    Signal() {
+        this.carCrossing = false; // Initially, no car crossing
+    }
+
+    // Method to simulate a car crossing the U-turn
+    void carCrossed() {
+        this.carCrossing = true;
+    }
+
+    // Method to reset the signal once the car has crossed
+    void resetSignal() {
+        this.carCrossing = false;
+    }
+
+    // Method to get the current state of the signal
+    String getSignalStatus() {
+        return (carCrossing) ? "Red" : "Green";
+    }
+}
+
+class UTurn {
+    Signal signal;
+    boolean speedBreaker;
+
+    // Constructor
+    UTurn() {
+        this.signal = new Signal();
+        this.speedBreaker = true; // Speed breaker present initially
+    }
+
+    // Method to simulate a car crossing the speed breaker
+    void carCrossedSpeedBreaker() {
+        this.speedBreaker = false; // Once crossed, speed breaker is no longer present
+    }
+
+    // Method to reset the U-turn after a car has crossed
+    void resetUTurn() {
+        this.speedBreaker = true; // Reset speed breaker
+        this.signal.resetSignal(); // Reset signal
+    }
+
+    // Method to get the current state of the U-turn signal
+    String getUTurnSignalStatus() {
+        if (speedBreaker) {
+            return "Red"; // If speed breaker present, signal is red
+        } else {
+            return signal.getSignalStatus(); // Otherwise, get signal status
+        }
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        UTurn uTurn = new UTurn();
+
+        // Simulating the scenario
+        System.out.println("Is a car crossing the U-turn? (yes/no)");
+        String input = scanner.next();
+
+        if (input.equalsIgnoreCase("yes")) {
+            // Car is crossing the U-turn
+            uTurn.carCrossedSpeedBreaker();
+            uTurn.signal.carCrossed();
+        } else {
+            // No car crossing the U-turn
+            uTurn.resetUTurn();
+        }
+
+        // Displaying the signal status
+        System.out.println("Signal status: " + uTurn.getUTurnSignalStatus());
+    }
+}
